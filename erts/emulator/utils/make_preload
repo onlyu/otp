@@ -19,6 +19,7 @@
 #
 use strict;
 use File::Basename;
+use bytes;
 
 #
 # Description:
