@@ -745,7 +745,7 @@ do_validate_is_set_ok(RowIndex, Cols) ->
 pre_set(RowIndex, Cols) ->
     %% Remove the ?is_cloning member again; it must no longer be
     %% present.
-    Cols0 = key1delete(?is_cloning, Cols),
+    Cols0 = lists:keydelete(?is_cloning, 1, Cols),
     %% Possibly initialize the usmUserSecurityName and privacy keys
     case snmp_generic:table_row_exists(db(usmUserTable), RowIndex) of
 	true -> Cols0;
@@ -826,14 +826,14 @@ get_cloned_cols(CloneFromRow, Cols) ->
         {?is_cloning, true}
     ],
     Func = fun({Col, _} = Item, NCols) ->
-            key1store(Col, NCols, Item)
+		   lists:keystore(Col, 1, NCols, Item)
     end,
     Cols1 = lists:foldl(Func, ClonedCols, Cols),
-    key1sort(Cols1).
+    lists:keysort(1, Cols1).
 
 no_cloning(Cols0) ->
-    Cols1 = key1delete(?usmUserCloneFrom, Cols0),
-    key1delete(?is_cloning, Cols1).
+    Cols1 = lists:keydelete(?usmUserCloneFrom, Cols0),
+    lists:keydelete(?is_cloning, Cols1).
 
 
 validate_auth_protocol(RowIndex, Cols) ->
