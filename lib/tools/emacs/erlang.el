@@ -2424,9 +2424,10 @@ This is automagically called by the user level function `indent-region'."
 	  (setq indent-point (point)))
 	(if (>= from-end (- (point-max) indent-point))
 	    (setq continue nil)
-	  (while (< (point) indent-point)
-	    (setq state (erlang-partial-parse
-			 (point) indent-point state))))))))
+	  (if (not (erlang-in-literal))
+	      (while (< (point) indent-point)
+		(setq state (erlang-partial-parse
+			     (point) indent-point state)))))))))
 
 
 (defun erlang-indent-current-buffer ()

@@ -700,3 +700,12 @@ some_function_name_xyz(xyzzy, #some_record{
 			       field2 = Field1,
 			       field2 = Field2}}),
     {ok, SomeVariable}.
+
+multi_line_string() ->
+    S = <<"this
+tests indentation
+of a
+multi-line
+string
+">>,
+    io:put_chars(S).
